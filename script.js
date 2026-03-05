@@ -1243,6 +1243,7 @@ if (languageSwitcher) {
 
     window.localStorage.setItem(storageKey, selectedLanguage);
     applyLanguage(selectedLanguage);
+    applyLeadModalLanguage(selectedLanguage);
 
     if (toggle && nav && nav.classList.contains("is-open")) {
       nav.classList.remove("is-open");
@@ -1256,7 +1257,138 @@ const leadForm = document.querySelector("#lead-form");
 const leadFormStatus = document.querySelector("#lead-form-status");
 const leadModalOpeners = document.querySelectorAll("[data-open-lead-modal]");
 const leadModalClosers = document.querySelectorAll("[data-close-lead-modal]");
+const leadModalCloseBtn = document.querySelector("#lead-modal-close");
+const leadModalTitle = document.querySelector("#lead-modal-title");
+const leadModalSubtitle = document.querySelector("#lead-modal-subtitle");
+const leadLabelLastName = document.querySelector("#lead-label-last-name");
+const leadLabelFirstName = document.querySelector("#lead-label-first-name");
+const leadLabelPhone = document.querySelector("#lead-label-phone");
+const leadLabelEmail = document.querySelector("#lead-label-email");
+const leadSubmitBtn = document.querySelector("#lead-submit-btn");
 const leadFirstInput = document.querySelector("#lead-last-name");
+
+const leadModalTranslations = {
+  en: {
+    title: "Leave your request",
+    subtitle: "Fill out the form and we will contact you shortly.",
+    lastName: "Last name",
+    firstName: "First name",
+    phone: "Phone number",
+    email: "Email",
+    submit: "Send",
+    status: "Thank you. Your request has been sent.",
+    closeAria: "Close form",
+  },
+  ru: {
+    title: "Оставьте заявку",
+    subtitle: "Заполните форму, и мы свяжемся с вами в ближайшее время.",
+    lastName: "Фамилия",
+    firstName: "Имя",
+    phone: "Номер телефона",
+    email: "Email",
+    submit: "Отправить",
+    status: "Спасибо. Ваша заявка отправлена.",
+    closeAria: "Закрыть форму",
+  },
+  uk: {
+    title: "Залиште заявку",
+    subtitle: "Заповніть форму, і ми зв'яжемося з вами найближчим часом.",
+    lastName: "Прізвище",
+    firstName: "Ім'я",
+    phone: "Номер телефону",
+    email: "Email",
+    submit: "Надіслати",
+    status: "Дякуємо. Вашу заявку надіслано.",
+    closeAria: "Закрити форму",
+  },
+  kk: {
+    title: "Өтінім қалдырыңыз",
+    subtitle: "Форманы толтырыңыз, біз сізбен жақын арада хабарласамыз.",
+    lastName: "Тегі",
+    firstName: "Аты",
+    phone: "Телефон нөмірі",
+    email: "Email",
+    submit: "Жіберу",
+    status: "Рақмет. Өтініміңіз жіберілді.",
+    closeAria: "Форманы жабу",
+  },
+  ky: {
+    title: "Өтүнмө калтырыңыз",
+    subtitle: "Форманы толтуруңуз, биз жакын арада сиз менен байланышабыз.",
+    lastName: "Фамилия",
+    firstName: "Аты",
+    phone: "Телефон номери",
+    email: "Email",
+    submit: "Жөнөтүү",
+    status: "Рахмат. Өтүнмөңүз жөнөтүлдү.",
+    closeAria: "Форманы жабуу",
+  },
+  sr: {
+    title: "Ostavite prijavu",
+    subtitle: "Popunite formu i kontaktiraćemo vas uskoro.",
+    lastName: "Prezime",
+    firstName: "Ime",
+    phone: "Broj telefona",
+    email: "Email",
+    submit: "Pošalji",
+    status: "Hvala. Vaša prijava je poslata.",
+    closeAria: "Zatvori formu",
+  },
+  uz: {
+    title: "So'rov qoldiring",
+    subtitle: "Formani to'ldiring, biz siz bilan tez orada bog'lanamiz.",
+    lastName: "Familiya",
+    firstName: "Ism",
+    phone: "Telefon raqami",
+    email: "Email",
+    submit: "Yuborish",
+    status: "Rahmat. So'rovingiz yuborildi.",
+    closeAria: "Formani yopish",
+  },
+  "es-mx": {
+    title: "Deja tu solicitud",
+    subtitle: "Completa el formulario y te contactaremos en breve.",
+    lastName: "Apellido",
+    firstName: "Nombre",
+    phone: "Número de teléfono",
+    email: "Correo electrónico",
+    submit: "Enviar",
+    status: "Gracias. Tu solicitud fue enviada.",
+    closeAria: "Cerrar formulario",
+  },
+};
+
+const applyLeadModalLanguage = (lang) => {
+  const copy = leadModalTranslations[lang] || leadModalTranslations.en;
+
+  if (leadModalTitle) {
+    leadModalTitle.textContent = copy.title;
+  }
+  if (leadModalSubtitle) {
+    leadModalSubtitle.textContent = copy.subtitle;
+  }
+  if (leadLabelLastName) {
+    leadLabelLastName.textContent = copy.lastName;
+  }
+  if (leadLabelFirstName) {
+    leadLabelFirstName.textContent = copy.firstName;
+  }
+  if (leadLabelPhone) {
+    leadLabelPhone.textContent = copy.phone;
+  }
+  if (leadLabelEmail) {
+    leadLabelEmail.textContent = copy.email;
+  }
+  if (leadSubmitBtn) {
+    leadSubmitBtn.textContent = copy.submit;
+  }
+  if (leadFormStatus) {
+    leadFormStatus.textContent = copy.status;
+  }
+  if (leadModalCloseBtn) {
+    leadModalCloseBtn.setAttribute("aria-label", copy.closeAria);
+  }
+};
 
 const isLeadModalOpen = () => leadModal && leadModal.classList.contains("is-open");
 
@@ -1268,6 +1400,10 @@ const openLeadModal = () => {
   leadModal.classList.add("is-open");
   leadModal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
+
+  if (leadFormStatus) {
+    leadFormStatus.hidden = true;
+  }
 
   if (leadFirstInput) {
     window.setTimeout(() => {
@@ -1316,3 +1452,5 @@ if (leadForm) {
     leadForm.reset();
   });
 }
+
+applyLeadModalLanguage(activeLanguage);

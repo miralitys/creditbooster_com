@@ -304,26 +304,32 @@
     <div id="lead-modal" class="lead-modal" aria-hidden="true">
       <div class="lead-modal-backdrop" data-close-lead-modal></div>
       <div class="lead-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
-        <button type="button" class="lead-modal-close" aria-label="Close form" data-close-lead-modal>
+        <button
+          id="lead-modal-close"
+          type="button"
+          class="lead-modal-close"
+          aria-label="Close form"
+          data-close-lead-modal
+        >
           &times;
         </button>
         <h3 id="lead-modal-title">Оставьте заявку</h3>
-        <p class="lead-modal-subtitle">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
+        <p id="lead-modal-subtitle" class="lead-modal-subtitle">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
 
         <form id="lead-form" class="lead-form">
-          <label for="lead-last-name">Фамилия</label>
+          <label id="lead-label-last-name" for="lead-last-name">Фамилия</label>
           <input id="lead-last-name" name="lastName" type="text" required autocomplete="family-name" />
 
-          <label for="lead-first-name">Имя</label>
+          <label id="lead-label-first-name" for="lead-first-name">Имя</label>
           <input id="lead-first-name" name="firstName" type="text" required autocomplete="given-name" />
 
-          <label for="lead-phone">Номер телефона</label>
+          <label id="lead-label-phone" for="lead-phone">Номер телефона</label>
           <input id="lead-phone" name="phone" type="tel" required autocomplete="tel" />
 
-          <label for="lead-email">Email</label>
+          <label id="lead-label-email" for="lead-email">Email</label>
           <input id="lead-email" name="email" type="email" required autocomplete="email" />
 
-          <button type="submit" class="btn btn-primary">Отправить</button>
+          <button id="lead-submit-btn" type="submit" class="btn btn-primary">Отправить</button>
           <p id="lead-form-status" class="lead-form-status" hidden>Спасибо. Ваша заявка отправлена.</p>
         </form>
       </div>
