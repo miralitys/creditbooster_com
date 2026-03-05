@@ -60,8 +60,8 @@
               profile with guided tradeline growth.
             </p>
             <div class="hero-cta">
-              <a class="btn btn-primary" href="#" data-i18n="hero.ctaStart">Start for $1</a>
-              <a class="btn btn-secondary" href="#" data-i18n="hero.ctaBook">Book a strategy call</a>
+              <a class="btn btn-primary" href="#" data-open-lead-modal data-i18n="hero.ctaStart">Start for $1</a>
+              <a class="btn btn-secondary" href="#" data-open-lead-modal data-i18n="hero.ctaBook">Book a strategy call</a>
             </div>
             <div class="hero-stats">
               <article>
@@ -265,7 +265,7 @@
             <p data-i18n="cta.text">Talk to our team and get your custom roadmap in minutes.</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-primary" href="#" data-i18n="cta.start">Start for $1</a>
+            <a class="btn btn-primary" href="#" data-open-lead-modal data-i18n="cta.start">Start for $1</a>
             <a class="btn btn-secondary" href="tel:+18666626678" data-i18n="cta.call">Call support</a>
           </div>
         </div>
@@ -300,6 +300,34 @@
         </div>
       </div>
     </footer>
+
+    <div id="lead-modal" class="lead-modal" aria-hidden="true">
+      <div class="lead-modal-backdrop" data-close-lead-modal></div>
+      <div class="lead-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+        <button type="button" class="lead-modal-close" aria-label="Close form" data-close-lead-modal>
+          &times;
+        </button>
+        <h3 id="lead-modal-title">Оставьте заявку</h3>
+        <p class="lead-modal-subtitle">Заполните форму, и мы свяжемся с вами в ближайшее время.</p>
+
+        <form id="lead-form" class="lead-form">
+          <label for="lead-last-name">Фамилия</label>
+          <input id="lead-last-name" name="lastName" type="text" required autocomplete="family-name" />
+
+          <label for="lead-first-name">Имя</label>
+          <input id="lead-first-name" name="firstName" type="text" required autocomplete="given-name" />
+
+          <label for="lead-phone">Номер телефона</label>
+          <input id="lead-phone" name="phone" type="tel" required autocomplete="tel" />
+
+          <label for="lead-email">Email</label>
+          <input id="lead-email" name="email" type="email" required autocomplete="email" />
+
+          <button type="submit" class="btn btn-primary">Отправить</button>
+          <p id="lead-form-status" class="lead-form-status" hidden>Спасибо. Ваша заявка отправлена.</p>
+        </form>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>

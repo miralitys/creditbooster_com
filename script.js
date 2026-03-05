@@ -1250,3 +1250,69 @@ if (languageSwitcher) {
     }
   });
 }
+
+const leadModal = document.querySelector("#lead-modal");
+const leadForm = document.querySelector("#lead-form");
+const leadFormStatus = document.querySelector("#lead-form-status");
+const leadModalOpeners = document.querySelectorAll("[data-open-lead-modal]");
+const leadModalClosers = document.querySelectorAll("[data-close-lead-modal]");
+const leadFirstInput = document.querySelector("#lead-last-name");
+
+const isLeadModalOpen = () => leadModal && leadModal.classList.contains("is-open");
+
+const openLeadModal = () => {
+  if (!leadModal) {
+    return;
+  }
+
+  leadModal.classList.add("is-open");
+  leadModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+
+  if (leadFirstInput) {
+    window.setTimeout(() => {
+      leadFirstInput.focus();
+    }, 40);
+  }
+};
+
+const closeLeadModal = () => {
+  if (!leadModal) {
+    return;
+  }
+
+  leadModal.classList.remove("is-open");
+  leadModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+};
+
+leadModalOpeners.forEach((opener) => {
+  opener.addEventListener("click", (event) => {
+    event.preventDefault();
+    openLeadModal();
+  });
+});
+
+leadModalClosers.forEach((closer) => {
+  closer.addEventListener("click", () => {
+    closeLeadModal();
+  });
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && isLeadModalOpen()) {
+    closeLeadModal();
+  }
+});
+
+if (leadForm) {
+  leadForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (leadFormStatus) {
+      leadFormStatus.hidden = false;
+    }
+
+    leadForm.reset();
+  });
+}

@@ -32,6 +32,10 @@ body {
   overflow-x: hidden;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3,
@@ -595,6 +599,93 @@ a {
 .site-footer {
   padding: 3.4rem 0;
   border-top: 1px solid rgba(80, 97, 118, 0.22);
+}
+
+.lead-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: none;
+}
+
+.lead-modal.is-open {
+  display: block;
+}
+
+.lead-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 14, 32, 0.52);
+  backdrop-filter: blur(4px);
+}
+
+.lead-modal-dialog {
+  position: relative;
+  width: min(520px, 92vw);
+  margin: min(10vh, 74px) auto;
+  background: #f7f9ff;
+  border: 1px solid rgba(80, 97, 118, 0.25);
+  border-radius: 22px;
+  padding: 1.25rem 1.15rem 1.15rem;
+  box-shadow: 0 26px 80px -36px rgba(16, 35, 56, 0.55);
+}
+
+.lead-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lead-modal-dialog h3 {
+  margin: 0;
+  font-size: 1.55rem;
+}
+
+.lead-modal-subtitle {
+  margin: 0.4rem 0 1rem;
+  color: var(--ink-soft);
+}
+
+.lead-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.lead-form label {
+  font-size: 0.88rem;
+  color: #334467;
+}
+
+.lead-form input {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(80, 97, 118, 0.3);
+  background: #fff;
+  padding: 0 0.75rem;
+  font: inherit;
+  color: var(--ink);
+}
+
+.lead-form input:focus {
+  outline: 2px solid rgba(80, 94, 206, 0.35);
+  border-color: rgba(80, 94, 206, 0.55);
+}
+
+.lead-form .btn {
+  margin-top: 0.45rem;
+  width: 100%;
+}
+
+.lead-form-status {
+  margin: 0.22rem 0 0;
+  font-size: 0.9rem;
+  color: #2a4776;
 }
 
 .footer-grid {
