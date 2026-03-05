@@ -207,10 +207,10 @@ a {
 .hero::before {
   content: "";
   position: absolute;
-  inset: -160px -10% auto;
-  height: 680px;
+  inset: -140px -10% auto;
+  height: 760px;
   background: linear-gradient(120deg, rgba(80, 94, 206, 0.3), rgba(127, 139, 232, 0.25) 46%, rgba(252, 137, 46, 0.2));
-  clip-path: polygon(0 16%, 100% 0, 100% 90%, 0 106%);
+  clip-path: polygon(0 12%, 100% 0, 100% 96%, 0 118%);
   z-index: -1;
 }
 
@@ -219,23 +219,6 @@ a {
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.95fr);
   align-items: start;
   gap: 2.2rem;
-}
-
-.hero-copy {
-  position: relative;
-  z-index: 1;
-  padding: 0.45rem 0.9rem 1.05rem;
-}
-
-.hero-copy::before {
-  content: "";
-  position: absolute;
-  inset: -0.85rem -0.95rem -1rem;
-  border-radius: 24px;
-  border: 1px solid rgba(88, 99, 143, 0.2);
-  background: linear-gradient(180deg, rgba(248, 250, 255, 0.78), rgba(248, 250, 255, 0.92));
-  box-shadow: 0 16px 40px -30px rgba(26, 36, 82, 0.45);
-  z-index: -1;
 }
 
 .hero-copy h1 {
@@ -363,13 +346,6 @@ a {
   color: #2f4560;
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(80, 97, 118, 0.18);
-}
-
-.panel-link {
-  display: inline-block;
-  margin-top: 0.95rem;
-  font-weight: 600;
-  color: var(--blue-dark);
 }
 
 .brands {
@@ -744,8 +720,8 @@ a {
   }
 
   .hero::before {
-    height: 620px;
-    clip-path: polygon(0 15%, 100% 0, 100% 88%, 0 104%);
+    height: 700px;
+    clip-path: polygon(0 12%, 100% 0, 100% 95%, 0 118%);
   }
 
   .hero-copy h1 {

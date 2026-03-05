@@ -125,7 +125,6 @@ const translations = {
       positiveLabel: "Positive tradelines added",
       currentLabel: "Current score",
       roadmapLabel: "Roadmap completion:",
-      linkLabel: "See full case study",
       result: (weeks) => `Result (${weeks} weeks)`,
     },
     caseStudies: [
@@ -255,7 +254,6 @@ const translations = {
       positiveLabel: "Добавлено положительных линий",
       currentLabel: "Текущий рейтинг",
       roadmapLabel: "Выполнение плана:",
-      linkLabel: "Открыть полный кейс",
       result: (weeks) => `Результат (${weeks} недель)`,
     },
     caseStudies: [
@@ -385,7 +383,6 @@ const translations = {
       positiveLabel: "Додано позитивних ліній",
       currentLabel: "Поточний рейтинг",
       roadmapLabel: "Виконання плану:",
-      linkLabel: "Відкрити повний кейс",
       result: (weeks) => `Результат (${weeks} тижнів)`,
     },
     caseStudies: [
@@ -515,7 +512,6 @@ const translations = {
       positiveLabel: "Қосылған оң кредиттік желілер",
       currentLabel: "Қазіргі кредиттік балл",
       roadmapLabel: "Жоспардың орындалуы:",
-      linkLabel: "Кейс толық нұсқасы",
       result: (weeks) => `Нәтиже (${weeks} апта)`,
     },
     caseStudies: [
@@ -645,7 +641,6 @@ const translations = {
       positiveLabel: "Кошулган оң кредиттик линиялар",
       currentLabel: "Азыркы кредиттик балл",
       roadmapLabel: "Пландын аткарылышы:",
-      linkLabel: "Толук кейсти көрүү",
       result: (weeks) => `Натыйжа (${weeks} жума)`,
     },
     caseStudies: [
@@ -775,7 +770,6 @@ const translations = {
       positiveLabel: "Dodate pozitivne kreditne linije",
       currentLabel: "Trenutni rejting",
       roadmapLabel: "Završenost plana:",
-      linkLabel: "Pogledaj ceo slučaj",
       result: (weeks) => `Rezultat (${weeks} nedelja)`,
     },
     caseStudies: [
@@ -905,7 +899,6 @@ const translations = {
       positiveLabel: "Qo'shilgan ijobiy kredit liniyalari",
       currentLabel: "Joriy reyting",
       roadmapLabel: "Reja bajarilishi:",
-      linkLabel: "To'liq keysni ko'rish",
       result: (weeks) => `Natija (${weeks} hafta)`,
     },
     caseStudies: [
@@ -1035,7 +1028,6 @@ const translations = {
       positiveLabel: "Líneas positivas agregadas",
       currentLabel: "Score actual",
       roadmapLabel: "Avance del plan:",
-      linkLabel: "Ver caso completo",
       result: (weeks) => `Resultado (${weeks} semanas)`,
     },
     caseStudies: [
@@ -1094,7 +1086,6 @@ const caseElements = {
   roadmapLabel: document.querySelector("#case-roadmap-label"),
   roadmapCompletion: document.querySelector("#case-roadmap-completion"),
   note: document.querySelector("#case-note"),
-  linkLabel: document.querySelector("#case-link-label"),
 };
 
 const languageSwitcher = document.querySelector("#language-switcher");
@@ -1105,6 +1096,7 @@ const storageKey = "creditbooster_lang";
 let activeLanguage = "en";
 let caseIndex = 0;
 let caseRotationId = null;
+let isCaseRotationPaused = false;
 
 const getLanguagePack = (lang) => translations[lang] || translations.en;
 
@@ -1131,7 +1123,6 @@ const applyCaseLabels = (langPack) => {
   caseElements.positiveLabel.textContent = langPack.caseUi.positiveLabel;
   caseElements.currentLabel.textContent = langPack.caseUi.currentLabel;
   caseElements.roadmapLabel.textContent = langPack.caseUi.roadmapLabel;
-  caseElements.linkLabel.textContent = langPack.caseUi.linkLabel;
 };
 
 const renderCase = (animate = true) => {
@@ -1197,6 +1188,10 @@ const startCaseRotation = () => {
     return;
   }
 
+  if (isCaseRotationPaused) {
+    return;
+  }
+
   if (caseRotationId) {
     window.clearInterval(caseRotationId);
   }
@@ -1213,10 +1208,31 @@ const startCaseRotation = () => {
   }, 3000);
 };
 
+const stopCaseRotation = () => {
+  if (!caseRotationId) {
+    return;
+  }
+
+  window.clearInterval(caseRotationId);
+  caseRotationId = null;
+};
+
 const savedLanguage = window.localStorage.getItem(storageKey);
 const initialLanguage = translations[savedLanguage] ? savedLanguage : "en";
 applyLanguage(initialLanguage);
 startCaseRotation();
+
+if (caseElements.wrapper) {
+  caseElements.wrapper.addEventListener("mouseenter", () => {
+    isCaseRotationPaused = true;
+    stopCaseRotation();
+  });
+
+  caseElements.wrapper.addEventListener("mouseleave", () => {
+    isCaseRotationPaused = false;
+    startCaseRotation();
+  });
+}
 
 if (languageSwitcher) {
   languageSwitcher.addEventListener("change", (event) => {
