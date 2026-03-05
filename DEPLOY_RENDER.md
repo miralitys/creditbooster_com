@@ -1,23 +1,42 @@
-# Deploy to Render
+# Render + GoHighLevel Setup
 
-## 1) Push project to GitHub
+## 1) Push code to GitHub
 
 ```bash
 cd /Users/ramisyaparov/Desktop/Creditbooster.com
-git init
 git add .
-git commit -m "Initial CreditBooster site"
-git branch -M main
-git remote add origin <YOUR_GITHUB_REPO_URL>
-git push -u origin main
+git commit -m "Integrate lead form with GoHighLevel webhook"
+git push origin main
 ```
 
-## 2) Create service in Render
+## 2) Создайте webhook в GoHighLevel
 
-1. Open Render Dashboard.
-2. Click `New` -> `Blueprint`.
-3. Connect your GitHub repo with this project.
-4. Render will detect `render.yaml` and create `creditbooster-site`.
-5. Click `Apply` / `Create`.
+1. В GoHighLevel откройте `Automation` -> `Workflows`.
+2. Создайте workflow с триггером `Inbound Webhook`.
+3. Скопируйте webhook URL (пример: `https://services.leadconnectorhq.com/hooks/...`).
+4. Добавьте действия в workflow (например `Create/Update Contact`, `Send Internal Notification` и т.д.).
 
-After deploy, Render gives a public URL like `https://creditbooster-site.onrender.com`.
+Сайт отправляет JSON поля:
+- `firstName`
+- `lastName`
+- `phone`
+- `email`
+- `language`
+- `pageUrl`
+- `source`
+- `fullName`
+- `submittedAt`
+
+## 3) Настройте Render
+
+1. В Render откройте сервис `creditbooster_com`.
+2. `Environment` -> добавьте переменную:
+   - `GHL_WEBHOOK_URL` = ваш URL из шага 2.
+3. Нажмите `Save Changes`.
+4. Запустите `Manual Deploy` -> `Deploy latest commit`.
+
+## 4) Проверка
+
+1. На сайте нажмите `Start for $1` или `Book a strategy call`.
+2. Отправьте тестовую форму.
+3. Убедитесь, что контакт/событие появилось в GoHighLevel workflow.

@@ -682,10 +682,19 @@ a {
   width: 100%;
 }
 
+.lead-form .btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .lead-form-status {
   margin: 0.22rem 0 0;
   font-size: 0.9rem;
   color: #2a4776;
+}
+
+.lead-form-status.is-error {
+  color: #a63a32;
 }
 
 .footer-grid {

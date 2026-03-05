@@ -1265,7 +1265,13 @@ const leadLabelFirstName = document.querySelector("#lead-label-first-name");
 const leadLabelPhone = document.querySelector("#lead-label-phone");
 const leadLabelEmail = document.querySelector("#lead-label-email");
 const leadSubmitBtn = document.querySelector("#lead-submit-btn");
+const leadLastNameInput = document.querySelector("#lead-last-name");
+const leadFirstNameInput = document.querySelector("#lead-first-name");
+const leadPhoneInput = document.querySelector("#lead-phone");
+const leadEmailInput = document.querySelector("#lead-email");
 const leadFirstInput = document.querySelector("#lead-last-name");
+const defaultLeadSource = "creditbooster.com lead modal";
+let activeLeadSource = defaultLeadSource;
 
 const leadModalTranslations = {
   en: {
@@ -1276,7 +1282,9 @@ const leadModalTranslations = {
     phone: "Phone number",
     email: "Email",
     submit: "Send",
-    status: "Thank you. Your request has been sent.",
+    sending: "Sending...",
+    success: "Thank you. Your request has been sent.",
+    error: "Could not send request. Please try again or call us.",
     closeAria: "Close form",
   },
   ru: {
@@ -1287,7 +1295,9 @@ const leadModalTranslations = {
     phone: "Номер телефона",
     email: "Email",
     submit: "Отправить",
-    status: "Спасибо. Ваша заявка отправлена.",
+    sending: "Отправляем...",
+    success: "Спасибо. Ваша заявка отправлена.",
+    error: "Не удалось отправить заявку. Попробуйте еще раз или позвоните нам.",
     closeAria: "Закрыть форму",
   },
   uk: {
@@ -1298,7 +1308,9 @@ const leadModalTranslations = {
     phone: "Номер телефону",
     email: "Email",
     submit: "Надіслати",
-    status: "Дякуємо. Вашу заявку надіслано.",
+    sending: "Надсилаємо...",
+    success: "Дякуємо. Вашу заявку надіслано.",
+    error: "Не вдалося надіслати заявку. Спробуйте ще раз або зателефонуйте нам.",
     closeAria: "Закрити форму",
   },
   kk: {
@@ -1309,7 +1321,9 @@ const leadModalTranslations = {
     phone: "Телефон нөмірі",
     email: "Email",
     submit: "Жіберу",
-    status: "Рақмет. Өтініміңіз жіберілді.",
+    sending: "Жіберілуде...",
+    success: "Рақмет. Өтініміңіз жіберілді.",
+    error: "Өтінімді жіберу мүмкін болмады. Қайталап көріңіз немесе бізге қоңырау шалыңыз.",
     closeAria: "Форманы жабу",
   },
   ky: {
@@ -1320,7 +1334,9 @@ const leadModalTranslations = {
     phone: "Телефон номери",
     email: "Email",
     submit: "Жөнөтүү",
-    status: "Рахмат. Өтүнмөңүз жөнөтүлдү.",
+    sending: "Жөнөтүлүүдө...",
+    success: "Рахмат. Өтүнмөңүз жөнөтүлдү.",
+    error: "Өтүнмө жөнөтүлгөн жок. Кайра аракет кылыңыз же бизге чалыңыз.",
     closeAria: "Форманы жабуу",
   },
   sr: {
@@ -1331,7 +1347,9 @@ const leadModalTranslations = {
     phone: "Broj telefona",
     email: "Email",
     submit: "Pošalji",
-    status: "Hvala. Vaša prijava je poslata.",
+    sending: "Slanje...",
+    success: "Hvala. Vaša prijava je poslata.",
+    error: "Slanje nije uspelo. Pokušajte ponovo ili nas pozovite.",
     closeAria: "Zatvori formu",
   },
   uz: {
@@ -1342,7 +1360,9 @@ const leadModalTranslations = {
     phone: "Telefon raqami",
     email: "Email",
     submit: "Yuborish",
-    status: "Rahmat. So'rovingiz yuborildi.",
+    sending: "Yuborilmoqda...",
+    success: "Rahmat. So'rovingiz yuborildi.",
+    error: "So'rovni yuborib bo'lmadi. Qayta urinib ko'ring yoki bizga qo'ng'iroq qiling.",
     closeAria: "Formani yopish",
   },
   "es-mx": {
@@ -1353,13 +1373,18 @@ const leadModalTranslations = {
     phone: "Número de teléfono",
     email: "Correo electrónico",
     submit: "Enviar",
-    status: "Gracias. Tu solicitud fue enviada.",
+    sending: "Enviando...",
+    success: "Gracias. Tu solicitud fue enviada.",
+    error: "No se pudo enviar tu solicitud. Inténtalo de nuevo o llámanos.",
     closeAria: "Cerrar formulario",
   },
 };
 
+let activeLeadCopy = leadModalTranslations.en;
+
 const applyLeadModalLanguage = (lang) => {
   const copy = leadModalTranslations[lang] || leadModalTranslations.en;
+  activeLeadCopy = copy;
 
   if (leadModalTitle) {
     leadModalTitle.textContent = copy.title;
@@ -1383,7 +1408,7 @@ const applyLeadModalLanguage = (lang) => {
     leadSubmitBtn.textContent = copy.submit;
   }
   if (leadFormStatus) {
-    leadFormStatus.textContent = copy.status;
+    leadFormStatus.textContent = copy.success;
   }
   if (leadModalCloseBtn) {
     leadModalCloseBtn.setAttribute("aria-label", copy.closeAria);
@@ -1402,6 +1427,8 @@ const openLeadModal = () => {
   document.body.classList.add("modal-open");
 
   if (leadFormStatus) {
+    leadFormStatus.classList.remove("is-error");
+    leadFormStatus.textContent = activeLeadCopy.success;
     leadFormStatus.hidden = true;
   }
 
@@ -1425,6 +1452,8 @@ const closeLeadModal = () => {
 leadModalOpeners.forEach((opener) => {
   opener.addEventListener("click", (event) => {
     event.preventDefault();
+    const openerSource = opener.getAttribute("data-lead-source");
+    activeLeadSource = openerSource ? `creditbooster.com:${openerSource}` : defaultLeadSource;
     openLeadModal();
   });
 });
@@ -1442,14 +1471,58 @@ window.addEventListener("keydown", (event) => {
 });
 
 if (leadForm) {
-  leadForm.addEventListener("submit", (event) => {
+  leadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const payload = {
+      firstName: leadFirstNameInput ? leadFirstNameInput.value.trim() : "",
+      lastName: leadLastNameInput ? leadLastNameInput.value.trim() : "",
+      phone: leadPhoneInput ? leadPhoneInput.value.trim() : "",
+      email: leadEmailInput ? leadEmailInput.value.trim() : "",
+      language: activeLanguage,
+      pageUrl: window.location.href,
+      source: activeLeadSource,
+    };
+
+    if (leadSubmitBtn) {
+      leadSubmitBtn.disabled = true;
+    }
+
     if (leadFormStatus) {
+      leadFormStatus.classList.remove("is-error");
+      leadFormStatus.textContent = activeLeadCopy.sending || activeLeadCopy.success;
       leadFormStatus.hidden = false;
     }
 
-    leadForm.reset();
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      if (leadFormStatus) {
+        leadFormStatus.classList.remove("is-error");
+        leadFormStatus.textContent = activeLeadCopy.success;
+      }
+
+      leadForm.reset();
+    } catch (err) {
+      console.error("Lead submission failed:", err);
+
+      if (leadFormStatus) {
+        leadFormStatus.classList.add("is-error");
+        leadFormStatus.textContent = activeLeadCopy.error || activeLeadCopy.success;
+      }
+    } finally {
+      if (leadSubmitBtn) {
+        leadSubmitBtn.disabled = false;
+      }
+    }
   });
 }
 

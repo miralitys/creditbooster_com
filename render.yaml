@@ -1,6 +1,11 @@
 services:
   - type: web
-    name: creditbooster-site
-    runtime: static
-    plan: free
-    staticPublishPath: .
+    name: creditbooster-com
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: GHL_WEBHOOK_URL
+        sync: false
