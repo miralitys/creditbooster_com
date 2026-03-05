@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CreditBooster - Financial Infrastructure for Better Credit</title>
+    <meta
+      name="description"
+      content="CreditBooster helps you scan, fix, and grow your credit profile with a transparent process and measurable progress."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-layer" aria-hidden="true"></div>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="#">
+          <img class="brand-logo" src="assets/creditbooster-logo.svg" alt="creditbooster" />
+        </a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="site-nav" class="site-nav">
+          <a href="#how" data-i18n="nav.how">How it works</a>
+          <a href="#results" data-i18n="nav.results">Results</a>
+          <a href="#security" data-i18n="nav.security">Security</a>
+          <a href="#faq" data-i18n="nav.faq">FAQ</a>
+          <div class="nav-controls">
+            <select id="language-switcher" class="lang-switcher" aria-label="Language switcher">
+              <option value="en">English</option>
+              <option value="ru">Русский</option>
+              <option value="uk">Українська</option>
+              <option value="kk">Қазақша</option>
+              <option value="ky">Кыргызча</option>
+              <option value="sr">Српски</option>
+              <option value="uz">O'zbekcha</option>
+              <option value="es-mx">Español (MX)</option>
+            </select>
+            <a class="btn btn-small btn-ghost" href="tel:+18666626678" data-i18n="nav.call">Call (866) 662-6678</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow" data-i18n="hero.eyebrow">Credit performance platform</p>
+            <h1 data-i18n="hero.title">Your solution to credit. Faster, clearer, measurable.</h1>
+            <p class="lead" data-i18n="hero.lead">
+              Start with a $1 credit scan, remove negative items across all three bureaus, and build a stronger
+              profile with guided tradeline growth.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#" data-i18n="hero.ctaStart">Start for $1</a>
+              <a class="btn btn-secondary" href="#" data-i18n="hero.ctaBook">Book a strategy call</a>
+            </div>
+            <div class="hero-stats">
+              <article>
+                <h3 data-i18n="hero.stat1Title">27 days</h3>
+                <p data-i18n="hero.stat1Text">first visible score movement</p>
+              </article>
+              <article>
+                <h3 data-i18n="hero.stat2Title">3 bureaus</h3>
+                <p data-i18n="hero.stat2Text">aligned dispute strategy</p>
+              </article>
+              <article>
+                <h3 data-i18n="hero.stat3Title">Upfront pricing</h3>
+                <p data-i18n="hero.stat3Text">prepayment model with clear terms</p>
+              </article>
+            </div>
+          </div>
+
+          <aside class="hero-panel reveal" id="client-case">
+            <p class="eyebrow" id="case-eyebrow" data-i18n="case.eyebrow">Real client case</p>
+            <h2 id="case-client">Client: Alex, Miami</h2>
+            <p class="case-label" id="case-before-label">Before</p>
+            <div class="panel-row">
+              <span id="case-starting-label">Starting score</span>
+              <strong id="case-starting-score">548</strong>
+            </div>
+            <p class="case-label" id="case-what-label">What we did</p>
+            <div class="panel-row">
+              <span id="case-negative-label">Negative items removed</span>
+              <strong id="case-negative-removed">9 of 11</strong>
+            </div>
+            <div class="panel-row">
+              <span id="case-positive-label">Positive tradelines added</span>
+              <strong id="case-positive-tradelines">+3 accounts</strong>
+            </div>
+            <div class="meter">
+              <div class="meter-fill" id="case-meter-fill" style="width: 82%"></div>
+            </div>
+            <p class="case-label" id="case-result-label">Result (8 weeks)</p>
+            <div class="panel-row">
+              <span id="case-current-label">Current score</span>
+              <strong id="case-current-score">710</strong>
+            </div>
+            <p class="micro">
+              <span id="case-roadmap-label">Roadmap completion:</span> <strong id="case-roadmap-completion">82%</strong>
+            </p>
+            <p class="panel-note" id="case-note">
+              Done already: 3-bureau audit, 2 dispute rounds filed, utilization ratio optimized, positive history
+              building launched.
+            </p>
+            <a class="panel-link" href="#" id="case-link-label">See full case study</a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="brands reveal">
+        <div class="container">
+          <p class="section-caption" data-i18n="brands.caption">Trusted by clients across major US markets</p>
+          <div class="brand-grid">
+            <span>LOS ANGELES</span>
+            <span>NEW YORK</span>
+            <span>CHICAGO</span>
+            <span>MIAMI</span>
+            <span>HOUSTON</span>
+            <span>AUSTIN</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="workflow">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow" data-i18n="workflow.eyebrow">How it works</p>
+            <h2 data-i18n="workflow.title">Four phases to rebuild your credit foundation.</h2>
+          </div>
+          <div class="workflow-grid">
+            <article class="workflow-card reveal">
+              <p class="step">01</p>
+              <h3 data-i18n="workflow.step1Title">We check</h3>
+              <p data-i18n="workflow.step1Text">For $1, we scan all three reports and map every removable negative item.</p>
+            </article>
+            <article class="workflow-card reveal">
+              <p class="step">02</p>
+              <h3 data-i18n="workflow.step2Title">We fix</h3>
+              <p data-i18n="workflow.step2Text">Dispute strategy removes inaccurate and harmful entries with bureau-level coordination.</p>
+            </article>
+            <article class="workflow-card reveal">
+              <p class="step">03</p>
+              <h3 data-i18n="workflow.step3Title">We build</h3>
+              <p data-i18n="workflow.step3Text">Add positive tradelines and improve payment profile depth for long-term score health.</p>
+            </article>
+            <article class="workflow-card reveal">
+              <p class="step">04</p>
+              <h3 data-i18n="workflow.step4Title">Get funded</h3>
+              <p data-i18n="workflow.step4Text">Unlock lending opportunities when your profile reaches your target risk tier.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="platform">
+        <div class="container platform-grid">
+          <div class="platform-copy reveal">
+            <p class="eyebrow" data-i18n="platform.eyebrow">Why CreditBooster</p>
+            <h2 data-i18n="platform.title">Modern operations for credit repair and growth.</h2>
+            <p data-i18n="platform.lead">
+              We combine analytics, dispute execution, and profile-building tactics in one guided system. No hidden
+              fees. No unclear timelines. Every phase is visible and tied to outcomes.
+            </p>
+            <ul>
+              <li data-i18n="platform.bullet1">Transparent onboarding and clear weekly updates</li>
+              <li data-i18n="platform.bullet2">Upfront payment plans with transparent billing terms</li>
+              <li data-i18n="platform.bullet3">Structured support from scan to funding readiness</li>
+            </ul>
+          </div>
+          <div class="platform-cards">
+            <article class="insight-card reveal">
+              <h3 data-i18n="platform.card1Title">Score Analysis</h3>
+              <p data-i18n="platform.card1Text">Initial report breakdown for $1 with a custom risk map and action list.</p>
+            </article>
+            <article class="insight-card reveal">
+              <h3 data-i18n="platform.card2Title">No Hidden Fees</h3>
+              <p data-i18n="platform.card2Text">Simple pricing and clear deliverables, from day one through completion.</p>
+            </article>
+            <article class="insight-card reveal">
+              <h3 data-i18n="platform.card3Title">Priority Execution</h3>
+              <p data-i18n="platform.card3Text">Accelerated dispute cycle designed for first results in under 30 days.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="proof">
+        <div class="container">
+          <div class="metrics reveal">
+            <article>
+              <h3>4.9/5</h3>
+              <p data-i18n="proof.metric1">average review rating</p>
+            </article>
+            <article>
+              <h3>10k+</h3>
+              <p data-i18n="proof.metric2">credit items challenged</p>
+            </article>
+            <article>
+              <h3>99.9%</h3>
+              <p data-i18n="proof.metric3">client data encryption uptime</p>
+            </article>
+          </div>
+          <div class="testimonials">
+            <article class="quote reveal">
+              <p data-i18n="proof.quote1">
+                "Easy to work with, fast communication, and a process that felt simple from day one. The score
+                movement was visible within the first month."
+              </p>
+              <span>Aleksandar</span>
+            </article>
+            <article class="quote reveal">
+              <p data-i18n="proof.quote2">
+                "Their team kept me informed every week and explained each dispute stage. The transparency was the
+                reason I stayed."
+              </p>
+              <span>Mladlen</span>
+            </article>
+            <article class="quote reveal">
+              <p data-i18n="proof.quote3">
+                "Best investment for fixing report discrepancies. I finally had a structured plan, not random
+                suggestions."
+              </p>
+              <span>Mihail</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="security" class="security">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow" data-i18n="security.eyebrow">Security and trust</p>
+            <h2 data-i18n="security.title">We handle your data like regulated financial infrastructure.</h2>
+          </div>
+          <div class="security-grid">
+            <article class="security-card reveal">
+              <h3 data-i18n="security.card1Title">Security</h3>
+              <p data-i18n="security.card1Text">128-bit encrypted transfer paths and strict access controls across all workflows.</p>
+            </article>
+            <article class="security-card reveal">
+              <h3 data-i18n="security.card2Title">Privacy</h3>
+              <p data-i18n="security.card2Text">We never sell or share personal information with unaffiliated marketing third parties.</p>
+            </article>
+            <article class="security-card reveal">
+              <h3 data-i18n="security.card3Title">Billing terms</h3>
+              <p data-i18n="security.card3Text">Services are provided on a prepayment basis with clear scope, timeline, and deliverables.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta reveal">
+        <div class="container cta-box">
+          <div>
+            <p class="eyebrow" data-i18n="cta.eyebrow">Start now</p>
+            <h2 data-i18n="cta.title">Make a credit plan built for your real profile.</h2>
+            <p data-i18n="cta.text">Talk to our team and get your custom roadmap in minutes.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary" href="#" data-i18n="cta.start">Start for $1</a>
+            <a class="btn btn-secondary" href="tel:+18666626678" data-i18n="cta.call">Call support</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="faq" class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a class="brand footer-brand" href="#">
+            <img class="brand-logo" src="assets/creditbooster-logo.svg" alt="creditbooster" />
+          </a>
+          <p data-i18n="footer.tagline">Financial infrastructure for credit recovery and growth.</p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.companyTitle">Company</h4>
+          <a href="#" data-i18n="footer.companyAbout">About us</a>
+          <a href="#" data-i18n="footer.companyCareers">Careers</a>
+          <a href="#" data-i18n="footer.companyContact">Contact</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.servicesTitle">Services</h4>
+          <a href="#" data-i18n="footer.servicesRepair">Credit repair</a>
+          <a href="#" data-i18n="footer.servicesTradelines">Tradelines</a>
+          <a href="#" data-i18n="footer.servicesFunding">Funding assistance</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.supportTitle">Support</h4>
+          <a href="#" data-i18n="footer.supportFaq">FAQ</a>
+          <a href="#" data-i18n="footer.supportPrivacy">Privacy policy</a>
+          <a href="tel:+18666626678">(866) 662-6678</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

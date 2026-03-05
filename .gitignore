@@ -1,0 +1,5 @@
+# Local previews and temporary captures
+preview*.png
+
+# macOS
+.DS_Store
