@@ -22,6 +22,9 @@ html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -29,7 +32,7 @@ body {
   color: var(--ink);
   background: var(--bg);
   line-height: 1.55;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body.modal-open {
@@ -55,6 +58,7 @@ a {
   position: fixed;
   inset: 0;
   z-index: -2;
+  overflow: hidden;
   background:
     radial-gradient(78rem 50rem at -10% -12%, rgba(80, 94, 206, 0.24), transparent 72%),
     radial-gradient(50rem 34rem at 110% 10%, rgba(127, 139, 232, 0.25), transparent 70%),
@@ -211,7 +215,7 @@ a {
 .hero::before {
   content: "";
   position: absolute;
-  inset: -140px -10% auto;
+  inset: -140px 0 auto;
   height: 760px;
   background: linear-gradient(120deg, rgba(80, 94, 206, 0.3), rgba(127, 139, 232, 0.25) 46%, rgba(252, 137, 46, 0.2));
   clip-path: polygon(0 12%, 100% 0, 100% 96%, 0 118%);
@@ -785,8 +789,9 @@ a {
   .site-nav {
     position: absolute;
     top: calc(100% - 1px);
+    left: 4vw;
     right: 4vw;
-    width: min(320px, 92vw);
+    width: auto;
     border: 1px solid rgba(80, 97, 118, 0.2);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.96);
