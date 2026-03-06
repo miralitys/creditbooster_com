@@ -345,7 +345,18 @@
           <input id="lead-first-name" name="firstName" type="text" required autocomplete="given-name" />
 
           <label id="lead-label-phone" for="lead-phone">Номер телефона</label>
-          <input id="lead-phone" name="phone" type="tel" required autocomplete="tel" />
+          <input
+            id="lead-phone"
+            name="phone"
+            type="tel"
+            required
+            autocomplete="tel-national"
+            inputmode="numeric"
+            minlength="15"
+            maxlength="15"
+            pattern="\+1\(\d{3}\)\d{3}-\d{4}"
+            placeholder="+1(555)123-4567"
+          />
 
           <label id="lead-label-email" for="lead-email">Email</label>
           <input id="lead-email" name="email" type="email" required autocomplete="email" />

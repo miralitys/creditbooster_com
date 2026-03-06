@@ -1286,6 +1286,7 @@ const leadModalTranslations = {
     success: "Thank you. Your request has been sent.",
     error: "Could not send request. Please try again or call us.",
     closeAria: "Close form",
+    invalidPhone: "Use format +1(XXX)XXX-XXXX",
   },
   ru: {
     title: "Оставьте заявку",
@@ -1299,6 +1300,7 @@ const leadModalTranslations = {
     success: "Спасибо. Ваша заявка отправлена.",
     error: "Не удалось отправить заявку. Попробуйте еще раз или позвоните нам.",
     closeAria: "Закрыть форму",
+    invalidPhone: "Введите номер в формате +1(XXX)XXX-XXXX",
   },
   uk: {
     title: "Залиште заявку",
@@ -1312,6 +1314,7 @@ const leadModalTranslations = {
     success: "Дякуємо. Вашу заявку надіслано.",
     error: "Не вдалося надіслати заявку. Спробуйте ще раз або зателефонуйте нам.",
     closeAria: "Закрити форму",
+    invalidPhone: "Введіть номер у форматі +1(XXX)XXX-XXXX",
   },
   kk: {
     title: "Өтінім қалдырыңыз",
@@ -1325,6 +1328,7 @@ const leadModalTranslations = {
     success: "Рақмет. Өтініміңіз жіберілді.",
     error: "Өтінімді жіберу мүмкін болмады. Қайталап көріңіз немесе бізге қоңырау шалыңыз.",
     closeAria: "Форманы жабу",
+    invalidPhone: "Нөмірді +1(XXX)XXX-XXXX форматында енгізіңіз",
   },
   ky: {
     title: "Өтүнмө калтырыңыз",
@@ -1338,6 +1342,7 @@ const leadModalTranslations = {
     success: "Рахмат. Өтүнмөңүз жөнөтүлдү.",
     error: "Өтүнмө жөнөтүлгөн жок. Кайра аракет кылыңыз же бизге чалыңыз.",
     closeAria: "Форманы жабуу",
+    invalidPhone: "+1(XXX)XXX-XXXX форматында номер жазыңыз",
   },
   sr: {
     title: "Ostavite prijavu",
@@ -1351,6 +1356,7 @@ const leadModalTranslations = {
     success: "Hvala. Vaša prijava je poslata.",
     error: "Slanje nije uspelo. Pokušajte ponovo ili nas pozovite.",
     closeAria: "Zatvori formu",
+    invalidPhone: "Unesite broj u formatu +1(XXX)XXX-XXXX",
   },
   uz: {
     title: "So'rov qoldiring",
@@ -1364,6 +1370,7 @@ const leadModalTranslations = {
     success: "Rahmat. So'rovingiz yuborildi.",
     error: "So'rovni yuborib bo'lmadi. Qayta urinib ko'ring yoki bizga qo'ng'iroq qiling.",
     closeAria: "Formani yopish",
+    invalidPhone: "Raqamni +1(XXX)XXX-XXXX formatida kiriting",
   },
   "es-mx": {
     title: "Deja tu solicitud",
@@ -1377,10 +1384,53 @@ const leadModalTranslations = {
     success: "Gracias. Tu solicitud fue enviada.",
     error: "No se pudo enviar tu solicitud. Inténtalo de nuevo o llámanos.",
     closeAria: "Cerrar formulario",
+    invalidPhone: "Usa el formato +1(XXX)XXX-XXXX",
   },
 };
 
 let activeLeadCopy = leadModalTranslations.en;
+const PHONE_REGEX = /^\+1\(\d{3}\)\d{3}-\d{4}$/;
+const PHONE_MASK_PLACEHOLDER = "+1(555)123-4567";
+const PHONE_DIGITS_LIMIT = 10;
+
+const extractPhoneDigits = (value) => String(value || "").replace(/\D/g, "");
+
+const normalizePhoneDigits = (value) => {
+  let digits = extractPhoneDigits(value);
+
+  if (digits.length === 11 && digits.startsWith("1")) {
+    digits = digits.slice(1);
+  }
+
+  return digits.slice(0, PHONE_DIGITS_LIMIT);
+};
+
+const formatPhoneByDigits = (digits) => {
+  if (!digits) {
+    return "";
+  }
+
+  if (digits.length <= 3) {
+    return `+1(${digits}`;
+  }
+
+  if (digits.length <= 6) {
+    return `+1(${digits.slice(0, 3)})${digits.slice(3)}`;
+  }
+
+  return `+1(${digits.slice(0, 3)})${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+};
+
+const applyPhoneMask = () => {
+  if (!leadPhoneInput) {
+    return;
+  }
+
+  const digits = normalizePhoneDigits(leadPhoneInput.value);
+  leadPhoneInput.value = formatPhoneByDigits(digits);
+};
+
+const isPhoneValid = (value) => PHONE_REGEX.test(String(value || "").trim());
 
 const applyLeadModalLanguage = (lang) => {
   const copy = leadModalTranslations[lang] || leadModalTranslations.en;
@@ -1412,6 +1462,9 @@ const applyLeadModalLanguage = (lang) => {
   }
   if (leadModalCloseBtn) {
     leadModalCloseBtn.setAttribute("aria-label", copy.closeAria);
+  }
+  if (leadPhoneInput) {
+    leadPhoneInput.placeholder = PHONE_MASK_PLACEHOLDER;
   }
 };
 
@@ -1470,14 +1523,39 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+if (leadPhoneInput) {
+  leadPhoneInput.addEventListener("input", () => {
+    applyPhoneMask();
+  });
+
+  leadPhoneInput.addEventListener("blur", () => {
+    applyPhoneMask();
+  });
+}
+
 if (leadForm) {
   leadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    applyPhoneMask();
+    const formattedPhone = leadPhoneInput ? leadPhoneInput.value.trim() : "";
+
+    if (!isPhoneValid(formattedPhone)) {
+      if (leadFormStatus) {
+        leadFormStatus.classList.add("is-error");
+        leadFormStatus.textContent = activeLeadCopy.invalidPhone || activeLeadCopy.error || "Invalid phone format";
+        leadFormStatus.hidden = false;
+      }
+      if (leadPhoneInput) {
+        leadPhoneInput.focus();
+      }
+      return;
+    }
+
     const payload = {
       firstName: leadFirstNameInput ? leadFirstNameInput.value.trim() : "",
       lastName: leadLastNameInput ? leadLastNameInput.value.trim() : "",
-      phone: leadPhoneInput ? leadPhoneInput.value.trim() : "",
+      phone: formattedPhone,
       email: leadEmailInput ? leadEmailInput.value.trim() : "",
       language: activeLanguage,
       pageUrl: window.location.href,

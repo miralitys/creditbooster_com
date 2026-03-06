@@ -87,7 +87,9 @@ const normalizeLead = (lead) => ({
   source: String(lead.source || "creditbooster.com website").trim(),
 });
 
-const validateLead = (lead) => lead.firstName && lead.lastName && lead.phone && lead.email;
+const PHONE_REGEX = /^\+1\(\d{3}\)\d{3}-\d{4}$/;
+const hasRequiredLeadFields = (lead) => lead.firstName && lead.lastName && lead.phone && lead.email;
+const isValidPhone = (phone) => PHONE_REGEX.test(String(phone || "").trim());
 
 const server = http.createServer((req, res) => {
   if (req.method === "POST" && req.url === "/api/lead") {
@@ -95,8 +97,13 @@ const server = http.createServer((req, res) => {
       .then(async (body) => {
         const lead = normalizeLead(body || {});
 
-        if (!validateLead(lead)) {
+        if (!hasRequiredLeadFields(lead)) {
           sendJson(res, 400, { ok: false, message: "Missing required fields" });
+          return;
+        }
+
+        if (!isValidPhone(lead.phone)) {
+          sendJson(res, 400, { ok: false, message: "Phone must match +1(XXX)XXX-XXXX" });
           return;
         }
 
