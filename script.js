@@ -1411,11 +1411,12 @@ const PHONE_MASK_PLACEHOLDER = "+1(555)123-4567";
 const PHONE_DIGITS_LIMIT = 10;
 
 const extractPhoneDigits = (value) => String(value || "").replace(/\D/g, "");
+const stripLeadingUsCountryCode = (value) => String(value || "").replace(/^\s*\+?1[\s(.-]*/, "");
 
 const normalizePhoneDigits = (value) => {
-  let digits = extractPhoneDigits(value);
+  let digits = extractPhoneDigits(stripLeadingUsCountryCode(value));
 
-  if (digits.length === 11 && digits.startsWith("1")) {
+  if (digits.length === PHONE_DIGITS_LIMIT + 1 && digits.startsWith("1")) {
     digits = digits.slice(1);
   }
 
