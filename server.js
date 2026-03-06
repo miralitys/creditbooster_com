@@ -88,8 +88,10 @@ const normalizeLead = (lead) => ({
 });
 
 const PHONE_REGEX = /^\+1\(\d{3}\)\d{3}-\d{4}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const hasRequiredLeadFields = (lead) => lead.firstName && lead.lastName && lead.phone && lead.email;
 const isValidPhone = (phone) => PHONE_REGEX.test(String(phone || "").trim());
+const isValidEmail = (email) => EMAIL_REGEX.test(String(email || "").trim());
 
 const server = http.createServer((req, res) => {
   if (req.method === "POST" && req.url === "/api/lead") {
@@ -104,6 +106,11 @@ const server = http.createServer((req, res) => {
 
         if (!isValidPhone(lead.phone)) {
           sendJson(res, 400, { ok: false, message: "Phone must match +1(XXX)XXX-XXXX" });
+          return;
+        }
+
+        if (!isValidEmail(lead.email)) {
+          sendJson(res, 400, { ok: false, message: "Email must be valid and include @" });
           return;
         }
 

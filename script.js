@@ -1287,6 +1287,7 @@ const leadModalTranslations = {
     error: "Could not send request. Please try again or call us.",
     closeAria: "Close form",
     invalidPhone: "Use format +1(XXX)XXX-XXXX",
+    invalidEmail: "Enter a valid email with @",
   },
   ru: {
     title: "Оставьте заявку",
@@ -1301,6 +1302,7 @@ const leadModalTranslations = {
     error: "Не удалось отправить заявку. Попробуйте еще раз или позвоните нам.",
     closeAria: "Закрыть форму",
     invalidPhone: "Введите номер в формате +1(XXX)XXX-XXXX",
+    invalidEmail: "Введите корректный email с символом @",
   },
   uk: {
     title: "Залиште заявку",
@@ -1315,6 +1317,7 @@ const leadModalTranslations = {
     error: "Не вдалося надіслати заявку. Спробуйте ще раз або зателефонуйте нам.",
     closeAria: "Закрити форму",
     invalidPhone: "Введіть номер у форматі +1(XXX)XXX-XXXX",
+    invalidEmail: "Введіть коректний email із символом @",
   },
   kk: {
     title: "Өтінім қалдырыңыз",
@@ -1329,6 +1332,7 @@ const leadModalTranslations = {
     error: "Өтінімді жіберу мүмкін болмады. Қайталап көріңіз немесе бізге қоңырау шалыңыз.",
     closeAria: "Форманы жабу",
     invalidPhone: "Нөмірді +1(XXX)XXX-XXXX форматында енгізіңіз",
+    invalidEmail: "Email мекенжайын @ белгісімен дұрыс енгізіңіз",
   },
   ky: {
     title: "Өтүнмө калтырыңыз",
@@ -1343,6 +1347,7 @@ const leadModalTranslations = {
     error: "Өтүнмө жөнөтүлгөн жок. Кайра аракет кылыңыз же бизге чалыңыз.",
     closeAria: "Форманы жабуу",
     invalidPhone: "+1(XXX)XXX-XXXX форматында номер жазыңыз",
+    invalidEmail: "Email дарегин @ белгиси менен туура жазыңыз",
   },
   sr: {
     title: "Ostavite prijavu",
@@ -1357,6 +1362,7 @@ const leadModalTranslations = {
     error: "Slanje nije uspelo. Pokušajte ponovo ili nas pozovite.",
     closeAria: "Zatvori formu",
     invalidPhone: "Unesite broj u formatu +1(XXX)XXX-XXXX",
+    invalidEmail: "Unesite ispravan email sa simbolom @",
   },
   uz: {
     title: "So'rov qoldiring",
@@ -1371,6 +1377,7 @@ const leadModalTranslations = {
     error: "So'rovni yuborib bo'lmadi. Qayta urinib ko'ring yoki bizga qo'ng'iroq qiling.",
     closeAria: "Formani yopish",
     invalidPhone: "Raqamni +1(XXX)XXX-XXXX formatida kiriting",
+    invalidEmail: "Email manzilini @ belgisi bilan to'g'ri kiriting",
   },
   "es-mx": {
     title: "Deja tu solicitud",
@@ -1385,11 +1392,13 @@ const leadModalTranslations = {
     error: "No se pudo enviar tu solicitud. Inténtalo de nuevo o llámanos.",
     closeAria: "Cerrar formulario",
     invalidPhone: "Usa el formato +1(XXX)XXX-XXXX",
+    invalidEmail: "Ingresa un correo valido con @",
   },
 };
 
 let activeLeadCopy = leadModalTranslations.en;
 const PHONE_REGEX = /^\+1\(\d{3}\)\d{3}-\d{4}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_MASK_PLACEHOLDER = "+1(555)123-4567";
 const PHONE_DIGITS_LIMIT = 10;
 
@@ -1431,6 +1440,7 @@ const applyPhoneMask = () => {
 };
 
 const isPhoneValid = (value) => PHONE_REGEX.test(String(value || "").trim());
+const isEmailValid = (value) => EMAIL_REGEX.test(String(value || "").trim());
 
 const applyLeadModalLanguage = (lang) => {
   const copy = leadModalTranslations[lang] || leadModalTranslations.en;
@@ -1539,6 +1549,7 @@ if (leadForm) {
 
     applyPhoneMask();
     const formattedPhone = leadPhoneInput ? leadPhoneInput.value.trim() : "";
+    const formattedEmail = leadEmailInput ? leadEmailInput.value.trim() : "";
 
     if (!isPhoneValid(formattedPhone)) {
       if (leadFormStatus) {
@@ -1552,11 +1563,23 @@ if (leadForm) {
       return;
     }
 
+    if (!isEmailValid(formattedEmail)) {
+      if (leadFormStatus) {
+        leadFormStatus.classList.add("is-error");
+        leadFormStatus.textContent = activeLeadCopy.invalidEmail || activeLeadCopy.error || "Invalid email format";
+        leadFormStatus.hidden = false;
+      }
+      if (leadEmailInput) {
+        leadEmailInput.focus();
+      }
+      return;
+    }
+
     const payload = {
       firstName: leadFirstNameInput ? leadFirstNameInput.value.trim() : "",
       lastName: leadLastNameInput ? leadLastNameInput.value.trim() : "",
       phone: formattedPhone,
-      email: leadEmailInput ? leadEmailInput.value.trim() : "",
+      email: formattedEmail,
       language: activeLanguage,
       pageUrl: window.location.href,
       source: activeLeadSource,

@@ -359,7 +359,16 @@
           />
 
           <label id="lead-label-email" for="lead-email">Email</label>
-          <input id="lead-email" name="email" type="email" required autocomplete="email" />
+          <input
+            id="lead-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            minlength="5"
+            pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+            placeholder="name@example.com"
+          />
 
           <button id="lead-submit-btn" type="submit" class="btn btn-primary">Отправить</button>
           <p id="lead-form-status" class="lead-form-status" hidden>Спасибо. Ваша заявка отправлена.</p>
