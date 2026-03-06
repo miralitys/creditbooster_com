@@ -1225,8 +1225,50 @@ const stopCaseRotation = () => {
   caseRotationId = null;
 };
 
+const resolveLanguageFromLocale = (locale) => {
+  const normalized = String(locale || "")
+    .toLowerCase()
+    .replace(/_/g, "-");
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (translations[normalized]) {
+    return normalized;
+  }
+
+  const base = normalized.split("-")[0];
+
+  if (base === "es") {
+    return "es-mx";
+  }
+
+  if (translations[base]) {
+    return base;
+  }
+
+  return null;
+};
+
+const detectPreferredLanguage = () => {
+  const locales =
+    Array.isArray(window.navigator.languages) && window.navigator.languages.length > 0
+      ? window.navigator.languages
+      : [window.navigator.language];
+
+  for (const locale of locales) {
+    const resolved = resolveLanguageFromLocale(locale);
+    if (resolved) {
+      return resolved;
+    }
+  }
+
+  return "en";
+};
+
 const savedLanguage = window.localStorage.getItem(storageKey);
-const initialLanguage = translations[savedLanguage] ? savedLanguage : "en";
+const initialLanguage = translations[savedLanguage] ? savedLanguage : detectPreferredLanguage();
 applyLanguage(initialLanguage);
 startCaseRotation();
 
